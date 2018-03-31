@@ -1,0 +1,115 @@
+<mujoco model="Leg3D">
+  <compiler inertiafromgeom="true" angle="radian" coordinate="local"/>
+  <option timestep="0.01" gravity="0 0 0" iterations="20" integrator="Euler"/>
+
+  <default>
+    <joint armature='0.04' damping="1" limited="true"/>
+    <geom friction=".0 .0 .0" density="300" margin="0.002" condim="1" contype="0" conaffinity="0"/>
+  </default>
+
+  <worldbody>
+    <light diffuse=".5 .5 .5" pos="0 0 3" dir="0 0 -1"/>
+
+    <geom name="table" rgba= "0.2 0.7 0.2 1" type="plane" pos="0 0.5 -0.325 " size="20 20 0.1" contype="1" conaffinity="1"/>
+
+    <geom name="bo" type="box" rgba="0.6 0.2 0.2 1" pos= "0 -0.6 0.65" size="0.18 0.06 0.25" />
+    <geom name="e3" type="sphere" rgba="0.91 0.75 0.53 1" pos="0 -0.60 0.97"  size="0.1"/>
+
+    <geom name="e1" type="capsule" rgba="0.91 0.75 0.53 1" fromto="-0.15 -0.6  0.86 -0.4 -0.6 0.65" size="0.04"/>
+    <geom name="e2" type="capsule" rgba="0.91 0.75 0.53 1" fromto="0.15 -0.6  0.86 0.4 -0.6 0.65"  size="0.04"/>
+
+    <!-- upper thigh link -->
+    <body name="r_upper_thigh_link"  pos="0.077 -0.6 0.45">
+
+      <geom name="ut" type="capsule" rgba="0.2 0.2 0.6 1" fromto="0 0 0 0 0 -0.4" size="0.06" />
+      <!--  Hip Lift Joint Location -->
+      <joint name="r_hip_lift_joint" type="hinge" pos="0 0 0" axis="0 1 0" range="-0.785 0.785" damping="1.0" />
+      <!--  Hip Pan Joint Location -->
+      <joint name="r_hip_pan_joint" type="hinge" pos="0 0 0" axis="1 0 0" range="-0.9 0.9" damping="1.0" />
+      <!-- Joint to roll upper thigh y axis -->
+      <joint name="r_upper_thigh_roll_joint" type="hinge" pos="0 0 0" axis="0 0 1" range="-1.5 1.7" damping="0.1" />
+
+      <!-- knee joint -->
+      <body name="r_knee_flex_link"  pos="0 0 -0.4">
+        <geom name="kf" type="capsule" rgba= "0.91 0.75 0.53 1" fromto="0 0 0.02 0.0 0 -0.02" size="0.06" />
+        <joint name="r_knee_flex_joint" type="hinge" pos="0 0 0" axis="1 0 0" range="0 1.57" damping="0.1"/>
+
+        <!-- leg link -->
+        <body name="r_leg_link"  pos="0 0 0">
+          <geom name="fa" type="capsule" rgba="0.91 0.75 0.53 1" fromto="0 0 0 0 -0.291 0" size="0.05" />
+
+          <!-- ankle flex -->
+          <body name="r_ankle_flex_link" pos="0 -0.321 0">
+            <geom name="af" type="capsule" fromto="-0.02 0 0 0.02 0  0" size="0.01" />
+            <joint name="r_ankle_flex_joint" type="hinge" pos="0 0 0" axis="0 1 0" range="-1.094 0" damping=".1" />
+            <joint name="r_ankle_roll_joint" type="hinge" pos="0 0 0" limited="true" axis="1 0 0" damping="0.1" range="-1.5 1.5"/>
+
+            <!-- foot -->
+            <body name="tips_foot"  pos="0 0 0">
+              <geom conaffinity="1" rgba="0.1 0.1 0.1 1" contype="1" name="tip_footl" pos="0 0 -0.017" size="0.05 0.03 0.07" type="box" />
+            </body>
+          </body>
+        </body>
+      </body>
+    </body>
+
+
+    <!-- upper thigh link -->
+    <body name="r_upper_thigh_link2"  pos="-0.077 -0.6 0.45">
+      <geom name="ut2" type="capsule" rgba="0.2 0.2 0.6 1" fromto="0 0 0 0 0 -0.4" size="0.06" />
+
+      <!-- knee joint -->
+      <body name="r_knee_flex_link2"  pos="0 0 -0.4">
+        <geom name="kf2" type="capsule" rgba= "0.91 0.75 0.53 1" fromto="0 0 0.02 0.0 0 -0.02" size="0.06" />
+
+        <!-- leg link -->
+        <body name="r_leg_link2"  pos="0 0 0">
+          <geom name="fa2" type="capsule" rgba="0.91 0.75 0.53 1" fromto="0 0 0 0 0 -0.291" size="0.05" />
+
+          <!-- ankle flex -->
+          <body name="r_ankle_flex_link2" pos="0 0 -0.321">
+            <geom name="af2" type="capsule" fromto="-0.02 0 0 0.02 0  0" size="0.01" />
+
+            <!-- foot -->
+            <body name="tips_foot2"  pos="0 0 0">
+              <geom conaffinity="1" rgba="0.1 0.1 0.1 1" contype="1" name="tip_footl2" pos="0 0 -0.017" size="0.05 0.07 0.03" type="box" />
+            </body>
+          </body>
+        </body>
+      </body>
+    </body>
+
+    <body name="object" pos="0.1 -0.65 -0.270" >
+      <geom type="sphere" rgba="1 1 1 1" pos="0 0 0" size="0.05 0.05 0.05" contype="1" conaffinity="0"/>
+      <joint name="obj_slidey" armature="0.1" type="slide" pos="0 0 0" axis="0 1 0" range="-10.3213 10.3" damping="0.3"/>
+      <joint name="obj_slidex" armature="0.1" type="slide" pos="0 0 0" axis="1 0 0" range="-10.3213 10.3" damping="0.3"/>
+    </body>
+
+    <body name="goal" pos="0.7 3 -0.3230">
+      <geom rgba="1. 1. 1. 0" pos="0 0 0" type="box" size="0.01 0.01 0.01" contype="0" conaffinity="0"/>
+      <body pos="0 0 0">
+        <geom rgba="1. 1. 1. 1" pos="0 0.075 0.04" type="box" size="0.032 0.001 0.04" contype="0" conaffinity="1"/>
+      </body>
+      <body name="coaster" pos="0 0 0">
+        <geom rgba="1. 1. 1. 1" type="cylinder" size="0.08 0.001 0.1" density='1000000' contype="0" conaffinity="0"/>
+      </body>
+      <body pos="0 0 0" axisangle="0 0 1 0.785">
+        <geom rgba="1. 1. 1. 1" pos="0 0.075 0.04" type="box" size="0.032 0.001 0.04" contype="0" conaffinity="1"/>
+      </body>
+      <body pos="0 0 0" axisangle="0 0 1 -0.785">
+        <geom rgba="1. 1. 1. 1" pos="0 0.075 0.04" type="box" size="0.032 0.001 0.04" contype="0" conaffinity="1"/>
+      </body>
+      <joint name="goal_free" type="free" pos="0 0 0" limited="false" damping="0"/>
+    </body>
+  </worldbody>
+
+  <actuator>
+    <motor joint="r_hip_pan_joint" ctrlrange="-3.0 3.0" ctrllimited="true" />
+    <motor joint="r_hip_lift_joint" ctrlrange="-3.0 3.0" ctrllimited="true" />
+    <motor joint="r_upper_thigh_roll_joint" ctrlrange="-3.0 3.0" ctrllimited="true" />
+    <motor joint="r_knee_flex_joint" ctrlrange="-3.0 3.0" ctrllimited="true" />
+    <motor joint="r_ankle_flex_joint" ctrlrange="-3.0 3.0" ctrllimited="true" />
+    <motor joint="r_ankle_roll_joint" ctrlrange="-3.0 3.0" ctrllimited="true"/>
+  </actuator>
+
+</mujoco>
